@@ -1,11 +1,14 @@
 package com.giftofhappiness.android.criminalintent2
 
 
+import android.icu.text.MessageFormat.format
 import android.os.Bundle
+import android.text.format.DateFormat.format
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -13,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.text.format.DateFormat
 
 private const val TAG ="CrimeListFragment"
 
@@ -20,6 +24,7 @@ class CrimeListFragment: Fragment() {
 
     private lateinit var crimeRecyclerView: RecyclerView
     private var adapter : CrimeAdapter? = null
+
 
 
     private val crimeListViewModel: CrimeListViewModel by lazy {
@@ -58,8 +63,11 @@ class CrimeListFragment: Fragment() {
     private inner class CrimeHolder(view:View):RecyclerView.ViewHolder(view),View.OnClickListener{
 
         private lateinit var crime: Crime
+        private val solvedImageView: ImageView = itemView.findViewById(R.id.crime_solved)
         val titleTextView: TextView = itemView.findViewById(R.id.crime_title)
         val dateTextView : TextView = itemView.findViewById(R.id.crime_date)
+
+
 
         init{
             itemView.setOnClickListener(this)
@@ -74,7 +82,12 @@ class CrimeListFragment: Fragment() {
 
             this.crime = crime
             titleTextView.text = this.crime.title
-            dateTextView.text = this.crime.date.toString()
+            dateTextView.text = DateFormat.format("EEEE,MMM dd,yyyy", this.crime.date)
+            if(crime.isSolved==true){
+                solvedImageView.visibility = View.VISIBLE
+            }else{
+                solvedImageView.visibility = View.GONE
+            }
 
         }
     }
