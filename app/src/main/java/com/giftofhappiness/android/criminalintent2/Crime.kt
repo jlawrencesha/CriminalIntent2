@@ -1,8 +1,11 @@
 package com.giftofhappiness.android.criminalintent2
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.*
 
-data class Crime (
+@Entity
+data class Crime (@PrimaryKey
 
     val id : UUID = UUID.randomUUID(),
     var title : String = "",
